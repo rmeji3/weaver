@@ -182,6 +182,7 @@ char userMove[81];
   strcpy(currWord,userWordStart);
  while (true)
 {
+  printf("\n1. Previous word is %s. Goal word is %s. Next word: ", currWord,userWordEnd);
   scanf("%s", userMove);
   if (strcmp(userMove, "q") == 0)
   {
@@ -197,6 +198,7 @@ char userMove[81];
     else if (strcmp(choice, "3") == 0)
     {
       free(choice);  // Free the memory allocated for choice
+      printf("Thanks for playing!\nExiting...\n");
       return 0;
     }
     free(choice);  // Free the memory allocated for choice
@@ -225,7 +227,7 @@ char userMove[81];
     printf("Your word, %s, is not a valid dictionary word. Try again.\n", userMove);
   }
 }
-  printf("Thanks for playing!\nExiting...\n");
+  
       // Print words array
       // for (int i = 0; i < num_words; i++) {
       //     printf("%s\n", words[i]);
