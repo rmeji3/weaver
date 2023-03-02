@@ -164,10 +164,10 @@ int main()
    
   }
 
-  while(true)
-  {
+  // while(true)
+  // {
         
-  }
+  // }
       // Print words array
       // for (int i = 0; i < num_words; i++) {
       //     printf("%s\n", words[i]);
