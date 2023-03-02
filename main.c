@@ -92,6 +92,12 @@ void nextMoves()
 {
   
 }
+bool checkWin(char userWord[], char goalWord[])
+{
+  if(strcmp(userWord,goalWord) == 0)
+    return true;
+  return false;
+}
 char *newGameMenu()
 {
   printf("\nEnter:\t1 to play again,\n\t2 to change the number of letters in the words and then play again, or\n\t3 to exit the program.\n");
@@ -198,9 +204,11 @@ while (!goodToGo) {
 char userMove[81];
   char currWord[81];
   strcpy(currWord,userWordStart);
+  int moves = 0;
  while (true)
 {
-  printf("\n1. Previous word is '%s'. Goal word is '%s'. Next word: ", currWord,userWordEnd);
+  moves++;
+  printf("\n%d. Previous word is '%s'. Goal word is '%s'. Next word: ", moves,currWord,userWordEnd);
   scanf("%s", userMove);
   if (strcmp(userMove, "q") == 0)
   {
@@ -221,9 +229,9 @@ char userMove[81];
     }
     free(choice);  // Free the memory allocated for choice
   }
-  if(strlen(userMove) != 4)
+  if(strlen(userMove) != word_length)
   {
-    printf("Your word, '%s', is not a 4-letter word. Try again.\n", userMove);
+    printf("Your word, '%s', is not a %d-letter word. Try again.\n", userMove, word_length);
     continue;
   }
     int numDiffCount = 0;
@@ -238,7 +246,27 @@ char userMove[81];
     }
     if(numDiffCount == 1)//if 1 letter is different 
     {
-      printf("Your word, %s, is exactly 1 character different. fix later.\n", userMove);
+      strcpy(currWord,userMove);
+      if(checkWin(currWord,userWordEnd))
+      { 
+        printf("Congratulations! You changed '%s' into '%s' in %d moves.\n", userWordStart, currWord, moves);
+        char *choice2 = newGameMenu();  // Store the user's choice in a variable
+        if (strcmp(choice2, "1") == 0)
+        {
+          printf("testing 1\n");
+        }
+        else if (strcmp(choice2, "2") == 0)
+        {
+          printf("testing 2\n");
+        }
+        else if (strcmp(choice2, "3") == 0)
+        {
+          free(choice2);  // Free the memory allocated for choice
+          printf("\nThanks for playing!\nExiting...\n");
+          return 0;
+        }
+      }
+        
     }
     else
     {
