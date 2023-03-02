@@ -70,7 +70,7 @@ bool checkUserWords(char userWordStart[], char userWordEnd[], char** words, int 
     }
     if (strlen(userWordEnd) != word_length)
     {
-      printf("Your word, ''%s', is not a %d-letter word. Try again.\n", userWordEnd, word_length);
+      printf("Your word, %s', is not a %d-letter word. Try again.\n", userWordEnd, word_length);
       return false;
     }
     else
