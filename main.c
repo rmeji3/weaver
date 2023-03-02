@@ -247,7 +247,7 @@ char userMove[81];
     if(numDiffCount == 1)//if 1 letter is different 
     {
       strcpy(currWord,userMove);
-      moves++;
+      
       if(checkWin(currWord,userWordEnd))
       { 
         
@@ -268,7 +268,7 @@ char userMove[81];
           return 0;
         }
       }
-        
+        moves++;
     }
     else
     {
