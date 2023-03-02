@@ -88,10 +88,48 @@ bool checkUserWords(char userWordStart[], char userWordEnd[], char** words, int 
     }
   return true;
 }
-void nextMoves()
-{
-  
+bool checkStart(char userWordStart[], char** words, int num_words, int word_length) {
+    
+    if (strlen(userWordStart) != word_length)
+    {
+      printf("Your word, '%s', is not a %d-letter word. Try again.\n", userWordStart, word_length);
+      return false;
+    }
+    else
+    {
+      
+      if (!checkDict(userWordStart, num_words, words)) 
+      {
+        printf("Your word, '%s', is not a valid dictionary word. Try again.\n", userWordStart);
+        return false;
+      }
+    }
+  // printf("Your starting word is: %s.\n", userWordStart);
+  return true;
 }
+bool checkEnd(char userWordEnd[], char** words, int num_words, int word_length) {
+    
+    if (strlen(userWordEnd) != word_length)
+    {
+      printf("Your word, '%s', is not a %d-letter word. Try again.\n", userWordEnd, word_length);
+      return false;
+    }
+    else
+    {
+      
+      if (!checkDict(userWordEnd, num_words, words)) 
+      {
+        printf("Your word, '%s', is not a valid dictionary word. Try again.\n", userWordEnd);
+        return false;
+      }
+    }
+  // printf("Your ending word is: %s.\n", userWordEnd);
+  return true;
+}
+// void nextMoves()
+// {
+  
+// }
 bool checkWin(char userWord[], char goalWord[])
 {
   if(strcmp(userWord,goalWord) == 0)
@@ -109,65 +147,32 @@ char *newGameMenu()
 
 int main()
 {
-  	/*
-  		Here are some print statements that you may use in your program.
-  		You will need to change at least some of them.
-  	*/
-  
-  
-  	// 
-  	// printf("Number of 4-letter words found: ???.\n\n");
-  
-  	// 
-  	// printf("Your word, 'zzzzz', is not a 4-letter word. Try again.\n");
-  	// printf("Your word, 'sonf', is not a valid dictionary word. Try again.\n");
-  	// printf("Your starting word is: song.\n");
-  	// printf("Your ending word is: sink.\n");
-  
-  	// printf("On each move enter a word of the same length that is at most 1 character different and is also in the dictionary.\n");
-   //    printf("You may also type in 'q' to quit guessing.\n");
-  
-  	// printf("\n1. Previous word is 'song'. Goal word is 'sink'. Next word: ");
-  
-  	// printf("Your word, 'sinks', is not a 4-letter word. Try again.\n");
-  	// printf("Your word, 'sint', is not a valid dictionary word. Try again.\n");
-  	// printf("Your word, 'guards', is not exactly 1 character different. Try again.\n");
-  
-  	// printf("Congratulations! You changed 'song' into 'sink' in 3 moves.\n");
-  
-  	// printf("\nEnter: \t1 to play again,\n");
-   //    printf("\t2 to change the number of letters in the words and then play again, or\n");
-   //    printf("\t3 to exit the program.\n");
-   //    printf("Your choice --> ");
-  
-  	/* 
-  		This code demonstrates how to read in from a file.
-  	*/
-  
-  
   int word_length,num_words;
   printf("Weaver is a game where you try to find a way to get from the starting word to the ending word.\n");
   printf("You can change only one letter at a time, and each word along the way must be a valid word.\n");
   printf("Enjoy!\n\n");
   printf("How many letters do you want to have in the words? ");
   scanf("%d", &word_length);
-    
-    
-      
-    char **words = read_file_words("words.txt", word_length, &num_words);
-    printf("Number of %d-letter words found: %d.\n\n",word_length,num_words);
-  
+
+char **words = read_file_words("words.txt", word_length, &num_words);
+printf("Number of %d-letter words found: %d.\n\n",word_length,num_words);
+
+int random;
 bool fullRestart = false;
-while(true)//start of entire game loop
-{  
-  if(fullRestart)//checks if the user wants to restart up to setting new num of words
-  {
+while(true) {  
+  
+  if(fullRestart) {
+     for (int i = 0; i < num_words; i++) {    // free the memory of the previous words array
+        free(words[i]);
+    }
+    free(words);
     printf("How many letters do you want to have in the words? ");
     scanf("%d", &word_length);
     
-    
-      
-    char **words = read_file_words("words.txt", word_length, &num_words);
+
+   
+
+    words = read_file_words("words.txt", word_length, &num_words);
     printf("Number of %d-letter words found: %d.\n\n",word_length,num_words);
     fullRestart = false;
   }
@@ -182,36 +187,39 @@ while(true)//start of entire game loop
       printf("Enter starting and ending words, or 'r' for either for a random word: ");
   
       scanf("%s %s", userWordStart, userWordEnd);
-  if (strcmp(userWordStart, "r") == 0 || strcmp(userWordEnd, "r") == 0) {
-      int random;
-      goodToGo = true;
+ 
+
       if (strcmp(userWordStart, "r") == 0 && strcmp(userWordEnd, "r") == 0) {
+
+      goodToGo = true;
           random = rand() % num_words;
-          printf("Your starting word is: %s.\n", words[random]);
           strcpy(userWordStart, words[random]);
           random = rand() % num_words;
-          printf("Your ending word is: %s.\n", words[random]);
           strcpy(userWordEnd, words[random]);
-      } else if (strcmp(userWordStart, "r") == 0) {
-          random = rand() % num_words;
-          printf("Your starting word is: %s.\n", words[random]);
-          strcpy(userWordStart, words[random]);
-      } else {
-          random = rand() % num_words;
-          printf("Your ending word is: %s.\n", words[random]);
-          strcpy(userWordEnd, words[random]);
+      } 
+      else if (strcmp(userWordStart, "r")  == 0) 
+      {
+        random = rand() % num_words;
+        strcpy(userWordStart, words[random]);
+        goodToGo = checkEnd(userWordEnd, words, num_words, word_length);
+        
+      } 
+      else if(strcmp(userWordEnd, "r")  == 0)
+      {
+        random = rand() % num_words;
+        strcpy(userWordEnd, words[random]);
+        goodToGo = checkStart(userWordStart, words, num_words, word_length);
       }
-  } else {
-      if (checkUserWords(userWordStart, userWordEnd, words, num_words, word_length)) {
+      else 
+      {
+      goodToGo = checkUserWords(userWordStart, userWordEnd, words, num_words, word_length) ;
+      }
+        if(goodToGo)
+        {
           printf("Your starting word is: %s.\n", userWordStart);
           printf("Your ending word is: %s.\n", userWordEnd);
-          goodToGo = true;
-      }
+        }
   }
-
-  }
-  
-  
   
     printf("On each move enter a word of the same length that is at most 1 character different and is also in the dictionary.\n");
     printf("You may also type in 'q' to quit guessing.\n");
@@ -234,6 +242,8 @@ while(true)//start of entire game loop
       else if (strcmp(choice, "2") == 0)
       {
         //full restart
+        
+
         fullRestart = true;
         break;
       }
