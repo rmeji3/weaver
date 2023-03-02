@@ -77,7 +77,7 @@ bool checkUserWords(char userWordStart[], char userWordEnd[], char** words, int 
     {  
       if (!checkDict(userWordEnd, num_words, words))
       {
-        printf("Your word, ''%s', is not a valid dictionary word. Try again.\n", userWordEnd);
+        printf("Your word, '%s', is not a valid dictionary word. Try again.\n", userWordEnd);
         return false;
       }
     }
