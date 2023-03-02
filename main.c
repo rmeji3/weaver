@@ -149,138 +149,150 @@ int main()
   printf("Weaver is a game where you try to find a way to get from the starting word to the ending word.\n");
   printf("You can change only one letter at a time, and each word along the way must be a valid word.\n");
   printf("Enjoy!\n\n");
-  
   printf("How many letters do you want to have in the words? ");
   scanf("%d", &word_length);
-  
-  
     
-  char **words = read_file_words("words.txt", word_length, &num_words);
-  printf("Number of 4-letter words found: %d.\n\n",num_words);
-      char userWordStart[81];
-    char userWordEnd[81];
-bool goodToGo = false;
-
-//   for(int i = 0; i < num_words; i++)
-//   {
-//     if(strcmp(words[i],"song") == 0)
-//     {
-//       printf("The word is in the dictionary.\n");
-//     }
-//   }
-//   printf("The word is not in the dictionary.\n");
-// return 0;
-while (!goodToGo) {
-    //starting word
-    printf("Enter starting and ending words, or 'r' for either for a random word: ");
-
-    scanf("%s %s", userWordStart, userWordEnd);
-    if (strcmp(userWordStart, "r") == 0 || strcmp(userWordEnd, "r") == 0) {
-        int random;
-        goodToGo = true;
-        if (strcmp(userWordStart, "r") == 0) {
-            random = rand() % num_words;
-            printf("Your starting word is: %s.\n", words[random]);
-            strcpy(userWordStart, words[random]);
-        }
-        if (strcmp(userWordEnd, "r") == 0) {
-            random = rand() % num_words;
-            printf("Your ending word is: %s.\n", words[random]);
-            strcpy(userWordEnd, words[random]);
-        }
-    } else {
-        if (checkUserWords(userWordStart, userWordEnd, words, num_words, word_length)) {
-            printf("Your starting word is: %s.\n", userWordStart);
-            printf("Your ending word is: %s.\n", userWordEnd);
-            goodToGo = true;
-        }
-    }
-}
-
-
-
-  printf("On each move enter a word of the same length that is at most 1 character different and is also in the dictionary.\n");
-  printf("You may also type in 'q' to quit guessing.\n");
-char userMove[81];
-  char currWord[81];
-  strcpy(currWord,userWordStart);
-  int moves = 1;
- while (true)
-{
-  printf("\n%d. Previous word is '%s'. Goal word is '%s'. Next word: ", moves,currWord,userWordEnd);
-  scanf("%s", userMove);
-  if (strcmp(userMove, "q") == 0)
-  {
-    char *choice = newGameMenu();  // Store the user's choice in a variable
-    if (strcmp(choice, "1") == 0)
-    {
-      printf("testing 1\n");
-    }
-    else if (strcmp(choice, "2") == 0)
-    {
-      printf("testing 2\n");
-    }
-    else if (strcmp(choice, "3") == 0)
-    {
-      free(choice);  // Free the memory allocated for choice
-      printf("\nThanks for playing!\nExiting...\n");
-      return 0;
-    }
-    free(choice);  // Free the memory allocated for choice
-  }
-  if(strlen(userMove) != word_length)
-  {
-
-    printf("Your word, '%s', is not a %d-letter word. Try again.\n", userMove, word_length);
-    continue;
-  }
-    int numDiffCount = 0;
-  if(checkDict(userMove,num_words,words))
-  {
-    for(int i = 0; i < word_length; i++)//we have to check the number of characters that are different since at least one has to be different
-    {
-      if(userMove[i] != currWord[i])
-      {
-          numDiffCount++;
-      }
-    }
-    if(numDiffCount == 1)//if 1 letter is different 
-    {
-      strcpy(currWord,userMove);
+    
       
-      if(checkWin(currWord,userWordEnd))
-      { 
+    char **words = read_file_words("words.txt", word_length, &num_words);
+    printf("Number of %d-letter words found: %d.\n\n",word_length,num_words);
+  
+bool fullRestart = false;
+while(true)//start of entire game loop
+{  
+  if(fullRestart)//checks if the user wants to restart up to setting new num of words
+  {
+    printf("How many letters do you want to have in the words? ");
+    scanf("%d", &word_length);
+    
+    
+      
+    char **words = read_file_words("words.txt", word_length, &num_words);
+    printf("Number of %d-letter words found: %d.\n\n",word_length,num_words);
+    fullRestart = false;
+  }
+
+  char userWordStart[81];
+  char userWordEnd[81];
+  bool goodToGo = false;
+  
+
+  while (!goodToGo) {
+      //starting word
+      printf("Enter starting and ending words, or 'r' for either for a random word: ");
+  
+      scanf("%s %s", userWordStart, userWordEnd);
+      if (strcmp(userWordStart, "r") == 0 || strcmp(userWordEnd, "r") == 0) {
+          int random;
+          goodToGo = true;
+          if (strcmp(userWordStart, "r") == 0) {
+              random = rand() % num_words;
+              printf("Your starting word is: %s.\n", words[random]);
+              strcpy(userWordStart, words[random]);
+          }
+          if (strcmp(userWordEnd, "r") == 0) {
+              random = rand() % num_words;
+              printf("Your ending word is: %s.\n", words[random]);
+              strcpy(userWordEnd, words[random]);
+          }
+      } else {
+          if (checkUserWords(userWordStart, userWordEnd, words, num_words, word_length)) {
+              printf("Your starting word is: %s.\n", userWordStart);
+              printf("Your ending word is: %s.\n", userWordEnd);
+              goodToGo = true;
+          }
+      }
+  }
+  
+  
+  
+    printf("On each move enter a word of the same length that is at most 1 character different and is also in the dictionary.\n");
+    printf("You may also type in 'q' to quit guessing.\n");
+  char userMove[81];
+    char currWord[81];
+    strcpy(currWord,userWordStart);
+    int moves = 1;
+   while (true)
+  {
+    printf("\n%d. Previous word is '%s'. Goal word is '%s'. Next word: ", moves,currWord,userWordEnd);
+    scanf("%s", userMove);
+    if (strcmp(userMove, "q") == 0)
+    {
+      char *choice = newGameMenu();  // Store the user's choice in a variable
+      if (strcmp(choice, "1") == 0)
+      {
+        break;
         
-        printf("Congratulations! You changed '%s' into '%s' in %d moves.\n", userWordStart, currWord, moves);
-        char *choice2 = newGameMenu();  // Store the user's choice in a variable
-        if (strcmp(choice2, "1") == 0)
+      }
+      else if (strcmp(choice, "2") == 0)
+      {
+        //full restart
+        fullRestart = true;
+        break;
+      }
+      else if (strcmp(choice, "3") == 0)
+      {
+        free(choice);  // Free the memory allocated for choice
+        printf("\nThanks for playing!\nExiting...\n");
+        return 0;
+      }
+      free(choice);  // Free the memory allocated for choice
+    }
+    if(strlen(userMove) != word_length)
+    {
+  
+      printf("Your word, '%s', is not a %d-letter word. Try again.\n", userMove, word_length);
+      continue;
+    }
+      int numDiffCount = 0;
+    if(checkDict(userMove,num_words,words))
+    {
+      for(int i = 0; i < word_length; i++)//we have to check the number of characters that are different since at least one has to be different
+      {
+        if(userMove[i] != currWord[i])
         {
-          printf("testing 1\n");
-        }
-        else if (strcmp(choice2, "2") == 0)
-        {
-          printf("testing 2\n");
-        }
-        else if (strcmp(choice2, "3") == 0)
-        {
-          free(choice2);  // Free the memory allocated for choice
-          printf("\nThanks for playing!\nExiting...\n");
-          return 0;
+            numDiffCount++;
         }
       }
-        moves++;
+      if(numDiffCount == 1)//if 1 letter is different 
+      {
+        strcpy(currWord,userMove);
+        
+        if(checkWin(currWord,userWordEnd))
+        { 
+          
+          printf("Congratulations! You changed '%s' into '%s' in %d moves.\n", userWordStart, currWord, moves);
+          char *choice2 = newGameMenu();  // Store the user's choice in a variable
+          if (strcmp(choice2, "1") == 0)
+          {
+            break;
+          }
+          else if (strcmp(choice2, "2") == 0)
+          {
+            fullRestart = true;
+            break;
+          }
+          else if (strcmp(choice2, "3") == 0)
+          {
+            free(choice2);  // Free the memory allocated for choice
+            printf("\nThanks for playing!\nExiting...\n");
+            return 0;
+          }
+        }
+          moves++;
+      }
+      else
+      {
+        printf("Your word, '%s', is not exactly 1 character different. Try again.\n", userMove);
+      }
     }
     else
     {
-      printf("Your word, '%s', is not exactly 1 character different. Try again.\n", userMove);
+      printf("Your word, '%s', is not a valid dictionary word. Try again.\n", userMove);
     }
+    // strcpy(currWord,userMove);
   }
-  else
-  {
-    printf("Your word, '%s', is not a valid dictionary word. Try again.\n", userMove);
-  }
-  // strcpy(currWord,userMove);
-}
+}//end of game loop
   
       // Print words array
       // for (int i = 0; i < num_words; i++) {
@@ -296,5 +308,5 @@ char userMove[81];
   // printf("%d\n", random);
   // printf("%s\n", words[0]);
   
-      return 0;
+  return 0;
 }
