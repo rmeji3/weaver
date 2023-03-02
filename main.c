@@ -40,37 +40,53 @@ char **read_file_words(const char *filename, int word_length, int *num_words) {
     *num_words = i;
     return words;
 }
+bool checkDict(char userInput[], int numWords, char** words)
+{
+  int i = 0;
+  for(i; i < numWords; i++)
+  {
+    if(strcmp(words[i], userInput) == 0)
+    {
+      return true;
+    }
+  }
+  return false;
+}
 bool checkUserWords(char userWordStart[], char userWordEnd[], char** words, int num_words, int word_length) {
-    if (strlen(userWordStart) != word_length) {
-        printf("Your word, %s, is not a %d-letter word. Try again.\n", userWordStart, word_length);
+    
+    if (strlen(userWordStart) != word_length)
+    {
+      printf("Your word, %s, is not a %d-letter word. Try again.\n", userWordStart, word_length);
+      return false;
     }
-    if (strlen(userWordEnd) != word_length) {
-        printf("Your word, %s, is not a %d-letter word. Try again.\n", userWordEnd, word_length);
-    }
-
-    bool foundStart = false;
-    bool foundEnd = false;
-    for (int i = 0; i < num_words; i++) {
-        if (strcmp(words[i], userWordStart) == 0) {
-            foundStart = true;
-        }
-        if (strcmp(words[i], userWordEnd) == 0) {
-            foundEnd = true;
-        }
-    }
-    if (!foundStart) {
+    else
+    {
+      
+      if (!checkDict(userWordStart, num_words, words)) 
+      {
         printf("Your word, %s, is not a valid dictionary word. Try again.\n", userWordStart);
+        return false;
+      }
     }
-
-    if (!foundEnd) {
+    if (strlen(userWordEnd) != word_length)
+    {
+      printf("Your word, %s, is not a %d-letter word. Try again.\n", userWordEnd, word_length);
+      return false;
+    }
+    else
+    {  
+      if (!checkDict(userWordEnd, num_words, words))
+      {
         printf("Your word, %s, is not a valid dictionary word. Try again.\n", userWordEnd);
+        return false;
+      }
     }
 
     if (strcmp(userWordStart, userWordEnd) == 0) {
-        printf("Your words are the same. Try again.\n");
+      printf("Your words are the same. Try again.\n");
+      return false;
     }
-
-    return foundStart && foundEnd ;
+  return true;
 }
 void nextMoves()
 {
@@ -84,15 +100,7 @@ char *newGameMenu()
   printf("Your choice --> ");
   return userChoice;
 }
-bool checkDict(char userInput[], int numWords, char** words)
-{
-  for(int i = 0; i < numWords; i++)
-  {
-    if(strcmp(userInput,words[i]) == 0)
-      return true;
-  }
-  return false;
-}
+
 int main()
 {
   	/*
@@ -146,6 +154,16 @@ int main()
       char userWordStart[81];
     char userWordEnd[81];
 bool goodToGo = false;
+
+//   for(int i = 0; i < num_words; i++)
+//   {
+//     if(strcmp(words[i],"song") == 0)
+//     {
+//       printf("The word is in the dictionary.\n");
+//     }
+//   }
+//   printf("The word is not in the dictionary.\n");
+// return 0;
 while (!goodToGo) {
     //starting word
     printf("Enter starting and ending words, or 'r' for either for a random word: ");
@@ -178,7 +196,7 @@ while (!goodToGo) {
   printf("On each move enter a word of the same length that is at most 1 character different and is also in the dictionary.\n");
   printf("You may also type in 'q' to quit guessing.\n");
 char userMove[81];
-  char currWord[word_length];
+  char currWord[81];
   strcpy(currWord,userWordStart);
  while (true)
 {
@@ -203,6 +221,11 @@ char userMove[81];
     }
     free(choice);  // Free the memory allocated for choice
   }
+  if(strlen(userMove) != 4)
+  {
+    printf("Your word, '%s', is not a 4-letter word. Try again.\n", userMove);
+    continue;
+  }
     int numDiffCount = 0;
   if(checkDict(userMove,num_words,words))
   {
@@ -226,6 +249,7 @@ char userMove[81];
   {
     printf("Your word, %s, is not a valid dictionary word. Try again.\n", userMove);
   }
+  strcpy(currWord,userMove);
 }
   
       // Print words array
