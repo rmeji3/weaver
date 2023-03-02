@@ -182,26 +182,33 @@ while(true)//start of entire game loop
       printf("Enter starting and ending words, or 'r' for either for a random word: ");
   
       scanf("%s %s", userWordStart, userWordEnd);
-      if (strcmp(userWordStart, "r") == 0 || strcmp(userWordEnd, "r") == 0) {
-          int random;
-          goodToGo = true;
-          if (strcmp(userWordStart, "r") == 0) {
-              random = rand() % num_words;
-              printf("Your starting word is: %s.\n", words[random]);
-              strcpy(userWordStart, words[random]);
-          }
-          if (strcmp(userWordEnd, "r") == 0) {
-              random = rand() % num_words;
-              printf("Your ending word is: %s.\n", words[random]);
-              strcpy(userWordEnd, words[random]);
-          }
+  if (strcmp(userWordStart, "r") == 0 || strcmp(userWordEnd, "r") == 0) {
+      int random;
+      goodToGo = true;
+      if (strcmp(userWordStart, "r") == 0 && strcmp(userWordEnd, "r") == 0) {
+          random = rand() % num_words;
+          printf("Your starting word is: %s.\n", words[random]);
+          strcpy(userWordStart, words[random]);
+          random = rand() % num_words;
+          printf("Your ending word is: %s.\n", words[random]);
+          strcpy(userWordEnd, words[random]);
+      } else if (strcmp(userWordStart, "r") == 0) {
+          random = rand() % num_words;
+          printf("Your starting word is: %s.\n", words[random]);
+          strcpy(userWordStart, words[random]);
       } else {
-          if (checkUserWords(userWordStart, userWordEnd, words, num_words, word_length)) {
-              printf("Your starting word is: %s.\n", userWordStart);
-              printf("Your ending word is: %s.\n", userWordEnd);
-              goodToGo = true;
-          }
+          random = rand() % num_words;
+          printf("Your ending word is: %s.\n", words[random]);
+          strcpy(userWordEnd, words[random]);
       }
+  } else {
+      if (checkUserWords(userWordStart, userWordEnd, words, num_words, word_length)) {
+          printf("Your starting word is: %s.\n", userWordStart);
+          printf("Your ending word is: %s.\n", userWordEnd);
+          goodToGo = true;
+      }
+  }
+
   }
   
   
