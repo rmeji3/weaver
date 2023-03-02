@@ -81,7 +81,7 @@ char *newGameMenu()
   printf("\nEnter:\t1 to play again,\n\t2 to change the number of letters in the words and then play again, or\n\t3 to exit the program.\n");
   char *userChoice = malloc(sizeof(char) * 81);  // Allocate memory for userChoice
   scanf("%s", userChoice);
-  printf("Your choice --> %s", userChoice);
+  printf("Your choice --> ");
   return userChoice;
 }
 bool checkDict(char userInput[], int numWords, char** words)
@@ -182,7 +182,7 @@ char userMove[81];
   strcpy(currWord,userWordStart);
  while (true)
 {
-  printf("\n1. Previous word is %s. Goal word is %s. Next word: ", currWord,userWordEnd);
+  printf("\n1. Previous word is '%s'. Goal word is '%s'. Next word: ", currWord,userWordEnd);
   scanf("%s", userMove);
   if (strcmp(userMove, "q") == 0)
   {
@@ -198,7 +198,7 @@ char userMove[81];
     else if (strcmp(choice, "3") == 0)
     {
       free(choice);  // Free the memory allocated for choice
-      printf("Thanks for playing!\nExiting...\n");
+      printf("\nThanks for playing!\nExiting...\n");
       return 0;
     }
     free(choice);  // Free the memory allocated for choice
