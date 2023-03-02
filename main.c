@@ -56,7 +56,7 @@ bool checkUserWords(char userWordStart[], char userWordEnd[], char** words, int 
     
     if (strlen(userWordStart) != word_length)
     {
-      printf("Your word, %s, is not a %d-letter word. Try again.\n", userWordStart, word_length);
+      printf("Your word, '%s', is not a %d-letter word. Try again.\n", userWordStart, word_length);
       return false;
     }
     else
@@ -64,20 +64,20 @@ bool checkUserWords(char userWordStart[], char userWordEnd[], char** words, int 
       
       if (!checkDict(userWordStart, num_words, words)) 
       {
-        printf("Your word, %s, is not a valid dictionary word. Try again.\n", userWordStart);
+        printf("Your word, '%s', is not a valid dictionary word. Try again.\n", userWordStart);
         return false;
       }
     }
     if (strlen(userWordEnd) != word_length)
     {
-      printf("Your word, %s, is not a %d-letter word. Try again.\n", userWordEnd, word_length);
+      printf("Your word, ''%s', is not a %d-letter word. Try again.\n", userWordEnd, word_length);
       return false;
     }
     else
     {  
       if (!checkDict(userWordEnd, num_words, words))
       {
-        printf("Your word, %s, is not a valid dictionary word. Try again.\n", userWordEnd);
+        printf("Your word, ''%s', is not a valid dictionary word. Try again.\n", userWordEnd);
         return false;
       }
     }
