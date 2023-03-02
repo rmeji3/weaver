@@ -204,10 +204,9 @@ while (!goodToGo) {
 char userMove[81];
   char currWord[81];
   strcpy(currWord,userWordStart);
-  int moves = 0;
+  int moves = 1;
  while (true)
 {
-  moves++;
   printf("\n%d. Previous word is '%s'. Goal word is '%s'. Next word: ", moves,currWord,userWordEnd);
   scanf("%s", userMove);
   if (strcmp(userMove, "q") == 0)
@@ -231,6 +230,7 @@ char userMove[81];
   }
   if(strlen(userMove) != word_length)
   {
+
     printf("Your word, '%s', is not a %d-letter word. Try again.\n", userMove, word_length);
     continue;
   }
@@ -247,8 +247,10 @@ char userMove[81];
     if(numDiffCount == 1)//if 1 letter is different 
     {
       strcpy(currWord,userMove);
+      moves++;
       if(checkWin(currWord,userWordEnd))
       { 
+        
         printf("Congratulations! You changed '%s' into '%s' in %d moves.\n", userWordStart, currWord, moves);
         char *choice2 = newGameMenu();  // Store the user's choice in a variable
         if (strcmp(choice2, "1") == 0)
@@ -270,14 +272,14 @@ char userMove[81];
     }
     else
     {
-      printf("Your word, %s, is not exactly 1 character different. Try again.\n", userMove);
+      printf("Your word, '%s', is not exactly 1 character different. Try again.\n", userMove);
     }
   }
   else
   {
-    printf("Your word, %s, is not a valid dictionary word. Try again.\n", userMove);
+    printf("Your word, '%s', is not a valid dictionary word. Try again.\n", userMove);
   }
-  strcpy(currWord,userMove);
+  // strcpy(currWord,userMove);
 }
   
       // Print words array
