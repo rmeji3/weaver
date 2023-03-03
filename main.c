@@ -237,24 +237,28 @@ while(true) {
       char *choice = newGameMenu();  // Store the user's choice in a variable
       if (strcmp(choice, "1") == 0)
       {
+        free(choice);
         break;
         
       }
       else if (strcmp(choice, "2") == 0)
       {
         //full restart
-        
-
         fullRestart = true;
+        free(choice);
         break;
       }
       else if (strcmp(choice, "3") == 0)
       {
+        for(int i = 0; i < num_words; i++)
+        {
+          free(words[i]);
+        }
+        free(words);
         free(choice);  // Free the memory allocated for choice
         printf("\nThanks for playing!\nExiting...\n");
         return 0;
       }
-      free(choice);  // Free the memory allocated for choice
     }
     if(strlen(userMove) != word_length)
     {
@@ -283,15 +287,22 @@ while(true) {
           char *choice2 = newGameMenu();  // Store the user's choice in a variable
           if (strcmp(choice2, "1") == 0)
           {
+            free(choice2);
             break;
           }
           else if (strcmp(choice2, "2") == 0)
           {
             fullRestart = true;
+            free(choice2);
             break;
           }
           else if (strcmp(choice2, "3") == 0)
           {
+            for(int i = 0; i < num_words; i++)
+            {    
+              free(words[i]);
+            }
+            free(words);
             free(choice2);  // Free the memory allocated for choice
             printf("\nThanks for playing!\nExiting...\n");
             return 0;
