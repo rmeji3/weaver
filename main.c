@@ -140,8 +140,8 @@ bool checkWin(char userWord[], char goalWord[])
 char *newGameMenu()
 {
   printf("\nEnter:\t1 to play again,\n\t2 to change the number of letters in the words and then play again, or\n\t3 to exit the program.\n");
-  char userChoice[81];  // Allocate memory for userChoice
-  scanf("%s", &userChoice);
+  char *userChoice = malloc(sizeof(char) * 81);  // Allocate memory for userChoice
+  scanf("%s", userChoice);
   printf("Your choice --> ");
   return userChoice;
 }
@@ -222,13 +222,13 @@ while(true) {
         }
   }
   
-  printf("On each move enter a word of the same length that is at most 1 character different and is also in the dictionary.\n");
-  printf("You may also type in 'q' to quit guessing.\n");
+    printf("On each move enter a word of the same length that is at most 1 character different and is also in the dictionary.\n");
+    printf("You may also type in 'q' to quit guessing.\n");
   char userMove[81];
-  char currWord[81];
-  strcpy(currWord,userWordStart);
-  int moves = 1;
-  while (true)
+    char currWord[81];
+    strcpy(currWord,userWordStart);
+    int moves = 1;
+   while (true)
   {
     printf("\n%d. Previous word is '%s'. Goal word is '%s'. Next word: ", moves,currWord,userWordEnd);
     scanf("%s", userMove);
@@ -250,16 +250,11 @@ while(true) {
       }
       else if (strcmp(choice, "3") == 0)
       {
-        for(int i = 0; i < num_words; i++)
-        {
-            free(words[i]);
-        }
-        free(words);
-        // free(choice);  // Free the memory allocated for choice
+        free(choice);  // Free the memory allocated for choice
         printf("\nThanks for playing!\nExiting...\n");
         return 0;
       }
-      // free(choice);  // Free the memory allocated for choice
+      free(choice);  // Free the memory allocated for choice
     }
     if(strlen(userMove) != word_length)
     {
@@ -297,12 +292,7 @@ while(true) {
           }
           else if (strcmp(choice2, "3") == 0)
           {
-            for(int i = 0; i < word_length; i++)
-            {
-              free(words[i]);
-            }
-            free(words);
-            // free(choice2);  // Free the memory allocated for choice
+            free(choice2);  // Free the memory allocated for choice
             printf("\nThanks for playing!\nExiting...\n");
             return 0;
           }
@@ -318,23 +308,8 @@ while(true) {
     {
       printf("Your word, '%s', is not a valid dictionary word. Try again.\n", userMove);
     }
-    // strcpy(currWord,userMove);
   }
 }//end of game loop
-  
-      // Print words array
-      // for (int i = 0; i < num_words; i++) {
-      //     printf("%s\n", words[i]);
-      // }
-      
-      // // Free memory allocated for words
-      // for (int i = 0; i < num_words; i++) {
-      //     free(words[i]);
-      // }
-      
-
-  // printf("%d\n", random);
-  // printf("%s\n", words[0]);
   
   return 0;
 }
