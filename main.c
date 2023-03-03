@@ -284,13 +284,9 @@ while(true) {
       //   return 0;
       // }
       if(quitMenu(choice, num_words, words, &fullRestart))
-      {
         break;
-      }
       else
-      {
         return 0;
-      }
     }
     if(strlen(userMove) != word_length)
     {
@@ -339,9 +335,10 @@ while(true) {
           //   printf("\nThanks for playing!\nExiting...\n");
           //   return 0;
           // }
-          if(quitMenu(choice2, num_words, words, &fullRestart) == 1 || quitMenu(choice2, num_words, words, &fullRestart) == 3)
+          if(quitMenu(choice2, num_words, words, &fullRestart))
             break;
-          return quitMenu(choice2, num_words, words, &fullRestart);
+          else
+            return 0;
         }
           moves++;
       }
