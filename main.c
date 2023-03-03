@@ -145,32 +145,30 @@ char *newGameMenu()
   printf("Your choice --> ");
   return userChoice;
 }
-int quitMenu(char * choice, int num_words, char ** words, bool *fullRestart)
+bool quitMenu(char * choice, int num_words, char ** words, bool *fullRestart)
 {
-  if (strcmp(choice, "1") == 0)
-      {
-        free(choice);
-        return 1;
-        
-      }
-      else if (strcmp(choice, "2") == 0)
-      {
-        //full restart
-        fullRestart = true;
-        free(choice);
-        return 0;
-      }
-      else if (strcmp(choice, "3") == 0)
-      {
-        for(int i = 0; i < num_words; i++)
-        {
-          free(words[i]);
-        }
-        free(words);
-        free(choice);  // Free the memory allocated for choice
-        printf("\nThanks for playing!\nExiting...\n");
-        return 3;
-      }
+  if (strcmp(choice, "1") == 0) 
+  {
+    free(choice);
+    return true;
+  } 
+  else if (strcmp(choice, "2") == 0)
+  {
+    *fullRestart = true;
+    free(choice);
+    return true;
+  } 
+  else if (strcmp(choice, "3") == 0) 
+  {
+    for (int i = 0; i < num_words; i++) 
+    {
+      free(words[i]);
+    }
+    free(words);
+    free(choice);
+    printf("\nThanks for playing!\nExiting...\n");
+    return false;
+  }
 }
 int main()
 {
@@ -285,9 +283,14 @@ while(true) {
       //   printf("\nThanks for playing!\nExiting...\n");
       //   return 0;
       // }
-      if(quitMenu(choice, num_words, words, &fullRestart) == 1 || quitMenu(choice, num_words, words, &fullRestart) == 3)
-            break;
-          return quitMenu(choice, num_words, words, &fullRestart);
+      if(quitMenu(choice, num_words, words, &fullRestart))
+      {
+        break;
+      }
+      else
+      {
+        return 0;
+      }
     }
     if(strlen(userMove) != word_length)
     {
