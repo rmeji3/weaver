@@ -170,6 +170,36 @@ bool quitMenu(char * choice, int num_words, char ** words, bool *fullRestart)
     return false;
   }
 }
+bool firstTwoWords(char *userWordStart, char *userWordEnd, char **words, int num_words, int word_length, bool * goodToGo)
+{
+    int random;
+
+    if (strcmp(userWordStart, "r") == 0 && strcmp(userWordEnd, "r") == 0) {
+        goodToGo = true;
+        random = rand() % num_words;
+        strcpy(userWordStart, words[random]);
+        random = rand() % num_words;
+        strcpy(userWordEnd, words[random]);
+    } 
+    else if (strcmp(userWordStart, "r")  == 0) 
+    {
+        random = rand() % num_words;
+        strcpy(userWordStart, words[random]);
+        goodToGo = checkEnd(userWordEnd, words, num_words, word_length);
+    } 
+    else if(strcmp(userWordEnd, "r")  == 0)
+    {
+        random = rand() % num_words;
+        strcpy(userWordEnd, words[random]);
+        goodToGo = checkStart(userWordStart, words, num_words, word_length);
+    }
+    else 
+    {
+        goodToGo = checkUserWords(userWordStart, userWordEnd, words, num_words, word_length) ;
+    }
+    
+    return goodToGo;
+}
 int main()
 {
   int word_length,num_words;
@@ -213,32 +243,32 @@ while(true) {
   
       scanf("%s %s", userWordStart, userWordEnd);
  
+      goodToGo = firstTwoWords(&userWordStart, &userWordEnd, words, num_words, word_length, &goodToGo);
+      // if (strcmp(userWordStart, "r") == 0 && strcmp(userWordEnd, "r") == 0) {
 
-      if (strcmp(userWordStart, "r") == 0 && strcmp(userWordEnd, "r") == 0) {
-
-      goodToGo = true;
-          random = rand() % num_words;
-          strcpy(userWordStart, words[random]);
-          random = rand() % num_words;
-          strcpy(userWordEnd, words[random]);
-      } 
-      else if (strcmp(userWordStart, "r")  == 0) 
-      {
-        random = rand() % num_words;
-        strcpy(userWordStart, words[random]);
-        goodToGo = checkEnd(userWordEnd, words, num_words, word_length);
+      // goodToGo = true;
+      //     random = rand() % num_words;
+      //     strcpy(userWordStart, words[random]);
+      //     random = rand() % num_words;
+      //     strcpy(userWordEnd, words[random]);
+      // } 
+      // else if (strcmp(userWordStart, "r")  == 0) 
+      // {
+      //   random = rand() % num_words;
+      //   strcpy(userWordStart, words[random]);
+      //   goodToGo = checkEnd(userWordEnd, words, num_words, word_length);
         
-      } 
-      else if(strcmp(userWordEnd, "r")  == 0)
-      {
-        random = rand() % num_words;
-        strcpy(userWordEnd, words[random]);
-        goodToGo = checkStart(userWordStart, words, num_words, word_length);
-      }
-      else 
-      {
-      goodToGo = checkUserWords(userWordStart, userWordEnd, words, num_words, word_length) ;
-      }
+      // } 
+      // else if(strcmp(userWordEnd, "r")  == 0)
+      // {
+      //   random = rand() % num_words;
+      //   strcpy(userWordEnd, words[random]);
+      //   goodToGo = checkStart(userWordStart, words, num_words, word_length);
+      // }
+      // else 
+      // {
+      // goodToGo = checkUserWords(userWordStart, userWordEnd, words, num_words, word_length) ;
+      // }
         if(goodToGo)
         {
           printf("Your starting word is: %s.\n", userWordStart);
@@ -259,30 +289,6 @@ while(true) {
     if (strcmp(userMove, "q") == 0)
     {
       char *choice = newGameMenu();  // Store the user's choice in a variable
-      // if (strcmp(choice, "1") == 0)
-      // {
-      //   free(choice);
-      //   break;
-        
-      // }
-      // else if (strcmp(choice, "2") == 0)
-      // {
-      //   //full restart
-      //   fullRestart = true;
-      //   free(choice);
-      //   break;
-      // }
-      // else if (strcmp(choice, "3") == 0)
-      // {
-      //   for(int i = 0; i < num_words; i++)
-      //   {
-      //     free(words[i]);
-      //   }
-      //   free(words);
-      //   free(choice);  // Free the memory allocated for choice
-      //   printf("\nThanks for playing!\nExiting...\n");
-      //   return 0;
-      // }
       if(quitMenu(choice, num_words, words, &fullRestart))
         break;
       else
@@ -313,28 +319,6 @@ while(true) {
           
           printf("Congratulations! You changed '%s' into '%s' in %d moves.\n", userWordStart, currWord, moves);
           char *choice2 = newGameMenu();  // Store the user's choice in a variable
-          // if (strcmp(choice2, "1") == 0)
-          // {
-          //   free(choice2);
-          //   break;
-          // }
-          // else if (strcmp(choice2, "2") == 0)
-          // {
-          //   fullRestart = true;
-          //   free(choice2);
-          //   break;
-          // }
-          // else if (strcmp(choice2, "3") == 0)
-          // {
-          //   for(int i = 0; i < num_words; i++)
-          //   {    
-          //     free(words[i]);
-          //   }
-          //   free(words);
-          //   free(choice2);  // Free the memory allocated for choice
-          //   printf("\nThanks for playing!\nExiting...\n");
-          //   return 0;
-          // }
           if(quitMenu(choice2, num_words, words, &fullRestart))
             break;
           else
