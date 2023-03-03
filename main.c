@@ -170,36 +170,7 @@ bool quitMenu(char * choice, int num_words, char ** words, bool *fullRestart)
     return false;
   }
 }
-bool firstTwoWords(char *userWordStart, char *userWordEnd, char **words, int num_words, int word_length, bool * goodToGo)
-{
-    int random;
 
-    if (strcmp(userWordStart, "r") == 0 && strcmp(userWordEnd, "r") == 0) {
-        goodToGo = true;
-        random = rand() % num_words;
-        strcpy(userWordStart, words[random]);
-        random = rand() % num_words;
-        strcpy(userWordEnd, words[random]);
-    } 
-    else if (strcmp(userWordStart, "r")  == 0) 
-    {
-        random = rand() % num_words;
-        strcpy(userWordStart, words[random]);
-        goodToGo = checkEnd(userWordEnd, words, num_words, word_length);
-    } 
-    else if(strcmp(userWordEnd, "r")  == 0)
-    {
-        random = rand() % num_words;
-        strcpy(userWordEnd, words[random]);
-        goodToGo = checkStart(userWordStart, words, num_words, word_length);
-    }
-    else 
-    {
-        goodToGo = checkUserWords(userWordStart, userWordEnd, words, num_words, word_length) ;
-    }
-    
-    return goodToGo;
-}
 int main()
 {
   int word_length,num_words;
@@ -243,32 +214,32 @@ while(true) {
   
       scanf("%s %s", userWordStart, userWordEnd);
  
-      goodToGo = firstTwoWords(&userWordStart, &userWordEnd, words, num_words, word_length, &goodToGo);
-      // if (strcmp(userWordStart, "r") == 0 && strcmp(userWordEnd, "r") == 0) {
 
-      // goodToGo = true;
-      //     random = rand() % num_words;
-      //     strcpy(userWordStart, words[random]);
-      //     random = rand() % num_words;
-      //     strcpy(userWordEnd, words[random]);
-      // } 
-      // else if (strcmp(userWordStart, "r")  == 0) 
-      // {
-      //   random = rand() % num_words;
-      //   strcpy(userWordStart, words[random]);
-      //   goodToGo = checkEnd(userWordEnd, words, num_words, word_length);
+      if (strcmp(userWordStart, "r") == 0 && strcmp(userWordEnd, "r") == 0) {
+
+      goodToGo = true;
+          random = rand() % num_words;
+          strcpy(userWordStart, words[random]);
+          random = rand() % num_words;
+          strcpy(userWordEnd, words[random]);
+      } 
+      else if (strcmp(userWordStart, "r")  == 0) 
+      {
+        random = rand() % num_words;
+        strcpy(userWordStart, words[random]);
+        goodToGo = checkEnd(userWordEnd, words, num_words, word_length);
         
-      // } 
-      // else if(strcmp(userWordEnd, "r")  == 0)
-      // {
-      //   random = rand() % num_words;
-      //   strcpy(userWordEnd, words[random]);
-      //   goodToGo = checkStart(userWordStart, words, num_words, word_length);
-      // }
-      // else 
-      // {
-      // goodToGo = checkUserWords(userWordStart, userWordEnd, words, num_words, word_length) ;
-      // }
+      } 
+      else if(strcmp(userWordEnd, "r")  == 0)
+      {
+        random = rand() % num_words;
+        strcpy(userWordEnd, words[random]);
+        goodToGo = checkStart(userWordStart, words, num_words, word_length);
+      }
+      else 
+      {
+      goodToGo = checkUserWords(userWordStart, userWordEnd, words, num_words, word_length) ;
+      }
         if(goodToGo)
         {
           printf("Your starting word is: %s.\n", userWordStart);
